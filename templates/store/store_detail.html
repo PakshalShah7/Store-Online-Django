@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+<img src="{{ store.cover_image.url }}" class="card-img-top" alt="Store Image"
+                 style="width:1050px;height:500px;">
+<table>
+    <tr>
+        <th>Store ID:</th>
+        <td><p>{{ store.id }}</p></td>
+    </tr>
+    <tr>
+        <th>Store Name:</th>
+        <td><p>{{ store.name }}</p></td>
+    </tr>
+    <tr>
+        <th>Description:</th>
+        <td><p>{{ store.description }}</p></td>
+    </tr>
+    <tr>
+        <th>Address:</th>
+        <td><p>{{ store.address }}</p></td>
+    </tr>
+    <tr>
+        <th>Category:</th>
+        <td><p>{{ store.category }}</p></td>
+    </tr>
+    <tr>
+        <th>Contact Number:</th>
+        <td><p>{{ store.phone_number }}</p></td>
+    </tr>
+    <tr>
+        <th>Website:</th>
+        <td><a href="{{ store.website }}">{{ store.website }}</a></td>
+    </tr>
+</table>
+
+{% if store.stores.count > 0 %}
+<table class="table align-middle mb-0 bg-white">
+    <thead class="bg-light">
+    <tr>
+        <th>Day</th>
+        <th>Timing</th>
+    </tr>
+    </thead>
+
+    {% for hour in store.stores.all %}
+    <tbody>
+    <tr>
+        <td>
+            <div class="d-flex align-items-center">
+                <div class="ms-3">
+                    <p class="fw-bold mb-1">{{ hour.day }}</p>
+                </div>
+            </div>
+        </td>
+        <td>
+            <p class="fw-normal mb-1">{{ hour.duration }}</p>
+        </td>
+    </tr>
+    </tbody>
+    {% endfor %}
+</table>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="col d-flex justify-content-center">
+    <form method="POST" id="create_form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if form.errors %}
+        {% for key, error in form.errors.items %}
+        {{ error }}
+        {% endfor %}
+        {% endif %}
+        {{ form.as_p }}
+        <b>Open Hours:</b>
+        {{ formset.management_form }}
+        {% for formset_form in formset %}
+        <div class="table align-middle mb-0 bg-white" id="hour-form">
+            <div class="col">
+                {% for field in formset_form %}
+                <p class="list-group-item list-group-item-danger text-danger">{{ field.errors }}</p>
+                {% endfor %}
+                <div class="d-flex align-items-center">
+                    {{ formset_form.as_p }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <button class="btn btn-secondary" id="add_more">Add</button>
+        <button type="submit" class="btn btn-primary" id="liveToastBtn">Update</button>
+    </form>
+</div>
+
+<div class="toast-container position-fixed top-0 end-0 p-3">
+  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+    <div class="toast-header">
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Store updated successfully.
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'js/toast.js' %}"></script>
+<script src="{% static 'js/store_create.js' %}"></script>
+{% endblock content %}

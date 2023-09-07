@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="media">
+    <img
+            style="width: 245px; height: 245px" class="rounded-circle"
+            src="{{ user.profile_image.url }}"
+    />
+</div>
+<div>
+    <form method="POST">
+        {% csrf_token %}
+        <link rel="stylesheet" type="text/css" href="{% static 'registration.css' %}">
+        {% if form.errors %}
+        {% for key, error in form.errors.items %}
+        {{ error }}
+        {% endfor %}
+        {% endif %}
+        <br>
+
+        <label>First Name:</label>
+        {{form.first_name}}<br>
+        <br>
+
+        <label>Last Name:</label>
+        {{form.last_name}}<br>
+        <br>
+
+        <label>User name:</label>
+        {{form.username}}<br>
+        <br>
+
+        <label>Email:</label>
+        {{form.email}}<br>
+        <br>
+
+        <label>Gender:</label>
+        {{form.gender}}<br>
+        <br>
+
+        <label>Profile Image:</label>
+        {{form.profile_image}}<br>
+        <br>
+
+        <label>Contact No:</label>
+        {{form.phone_number}}<br>
+        <br>
+        <br>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                data-bs-target="#DeleteModal{{ user.id }}">Delete my account
+        </button>
+    </form>
+</div>
+
+<!-- User Delete Modal -->
+<div class="modal fade" id="DeleteModal{{ user.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Delete Account</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'user:user_delete' user.id %}" method="POST">
+                    {% csrf_token %}
+                    Are you sure you want to delete your account <b>{{ user.username }}</b> ?
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
